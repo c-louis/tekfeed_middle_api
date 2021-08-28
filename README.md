@@ -10,8 +10,7 @@ PHP >= 7.4
 [Composer](https://getcomposer.org/)
 
 A web server
-
-## Usage
+## Installation
 
 You will have to create .env file.
 
@@ -25,8 +24,19 @@ Before being able to store any call you will have to create a database named *te
 
 To init the tables you can just access the page : /seed of the api, it will create the table.
 
-## Changing Database Name
+## Usage
 
+There is only one endpoint :
+
+### /search
+
+| Parameter | Usage | Description|
+|--|--|--|
+| key | &key= | Your api Key defined in your .env|
+| query | &q= | The name of the University you want to find|
+
+
+## Changing Database Name
 You can change the Database Name directly in 
 
 ***bootstrap.php***
