@@ -35,8 +35,6 @@ $router->get('/search', function(Request $request) {
         return [
             'code' => '300',
             'msg' => 'Missing api key',
-            'key' => isset($params['key']) ? $params['key'] : '',
-            'wanted' => getenv('MIDDLE_API_KEY')
         ];
     }
     else if (!isset($params['q'])) {
