@@ -2,6 +2,13 @@
     "require": {
         "illuminate/database": "^8.57",
         "izniburak/router": "^2.3",
-        "doctrine/dbal": "^3.1"
+        "doctrine/dbal": "^3.1",
+        "vlucas/phpdotenv": "^5.3",
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tekfeed\\": "class/"
+        }
     }
 }
