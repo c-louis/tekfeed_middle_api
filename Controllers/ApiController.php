@@ -100,18 +100,4 @@ class ApiController extends Controller {
 	        }
 	    }
 	}
-
-	public function ranking(Request $request) {
-		$params = $request->query->all();
-		if (!isset($params['type'])) {
-			return ['code' => '300', 'Missing type parameter'];
-		}
-		if ($params['type'] == 'ICU') {
-			return json_encode(IcuRanking::all());
-		} else if ($params['type'] == 'SHANGHAI') {
-			return json_encode(ShanghaiRanking::all());
-		} else {
-			return ['code' => '300', 'Given type does not exist !'];
-		}
-	}
 }

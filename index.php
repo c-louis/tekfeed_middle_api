@@ -26,7 +26,10 @@ $router->get('/', function() {
 $router->get('/seed', 'ApiController@seed');
 $router->get('/clear', 'ApiController@clear');
 $router->get('/search', 'ApiController@search');
-$router->get('/ranking', 'ApiController@ranking');
+
+$router->get('/ranking', 'DataController@ranking');
+$router->get('/universities', 'DataController@universities');
+$router->get('/col', 'DataController@costOfLiving');
 
 $router->run();
 
