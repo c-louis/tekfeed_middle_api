@@ -23,16 +23,16 @@ class ApiController extends Controller {
 			Result::seed();
 		} catch (Exception $e) {
 			$hasError = true;
-			//print_r($e);
+			print_r($e);
 		}
 		try {
 			University::seed();
 		} catch (Exception $e) {
 			$hasError = true;
-			//print_r($e);
+			print_r($e);
 		}
 		try {
-			//IcuRanking::seed();
+			IcuRanking::seed();
 		} catch (Exception $e) {
 			$hasError = true;
 			print_r($e);
@@ -41,7 +41,7 @@ class ApiController extends Controller {
 			ShanghaiRanking::seed();
 		} catch (Exception $e) {
 			$hasError = true;
-			//print_r($e);
+			print_r($e);
 		}
 		try {
 			CostOfLiving::seed();
