@@ -38,6 +38,9 @@ class IcuRanking extends Model {
             try {
                 $res = CustomSearchIcu::findOrSearch($university->school);
                 $json = json_decode($res->result);
+                if (!isset($json->items) || !isset($json->items[0]) || !isset($json->items[0]->link)) {
+                    continue;
+                }
                 $icu_link = $json->items[0]->link;
 
                 $client = CrawlerClient::createChromeClient();
