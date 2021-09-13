@@ -23,13 +23,17 @@ class IcuRanking extends Model {
     }    
 
     static function seed() {
-        Capsule::schema()->create('icu_ranking', function ($table) {
-            $table->increments('id');
-            $table->foreignId('university_id')->unique();
-            $table->integer('national_rank');
-            $table->integer('world_rank');
-            $table->timestamps();
-        });
+        if (!Capsule::schema()->hasTable('icu_ranking')) {
+            Capsule::schema()->createIfNotExist('icu_ranking', function ($table) {
+                $table->increments('id');
+                $table->foreignId('university_id')->unique();
+                $table->integer('national_rank');
+                $table->integer('world_rank');
+                $table->timestamps();
+            });
+        } else {
+            IcuRanking::truncate();
+        }
 
         $universities = University::all();
         foreach ($universities as $university) {

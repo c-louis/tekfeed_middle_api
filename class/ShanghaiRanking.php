@@ -22,12 +22,16 @@ class ShanghaiRanking extends Model {
     }    
 
     static function seed() {
-        Capsule::schema()->create('shanghai_ranking', function ($table) {
-            $table->increments('id');
-            $table->foreignId('university_id')->unique();
-            $table->integer('world_rank');
-            $table->timestamps();
-        });
+        if (!Capsule::schema()->hasTable('shanghai_ranking')) {
+            Capsule::schema()->create('shanghai_ranking', function ($table) {
+                $table->increments('id');
+                $table->foreignId('university_id')->unique();
+                $table->integer('world_rank');
+                $table->timestamps();
+            });
+        } else {
+            ShanghaiRanking::truncate();
+        }
 
         $shanghaiRank = [];
         $csv = Reader::createFromPath(realpath(__DIR__.'/../data/shanghai.csv'), 'r');

@@ -25,17 +25,21 @@ class CostOfLiving extends Model {
    ];
 
     static function seed() {
-        Capsule::schema()->create('cost_of_living', function ($table) {
-            $table->increments('id');
-            $table->text('country')->unique();
-            $table->decimal('costOfLivingIndex');
-            $table->decimal('rentIndex');
-            $table->decimal('costOfLivingPlusRentIndex');
-            $table->decimal('groceriesIndex');
-            $table->decimal('restaurantPriceIndex');
-            $table->decimal('localPurchasingPowerIndex');
-            $table->timestamps();
-        });
+        if (!Capsule::schema()->hasTable('cost_of_living')) {
+            Capsule::schema()->create('cost_of_living', function ($table) {
+                $table->increments('id');
+                $table->text('country')->unique();
+                $table->decimal('costOfLivingIndex');
+                $table->decimal('rentIndex');
+                $table->decimal('costOfLivingPlusRentIndex');
+                $table->decimal('groceriesIndex');
+                $table->decimal('restaurantPriceIndex');
+                $table->decimal('localPurchasingPowerIndex');
+                $table->timestamps();
+            });
+        } else {
+            CostOfLiving::truncate();
+        }
 
         // URL : https://www.numbeo.com/cost-of-living/rankings_by_country.jsp
 

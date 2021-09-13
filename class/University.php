@@ -35,21 +35,25 @@ class University extends Model {
     }
 
    static function seed() {
-        Capsule::schema()->create('university', function ($table) {
-            $table->increments('id');
-            $table->longText('school'); // Col 3
-            $table->longText('country'); // Col 1
-            $table->longText('city'); // Col 2
-            $table->text('dates'); // Col 4
-            $table->text('language'); // Col 5
-            $table->longText('dualDegrees'); // Col 6
-            $table->text('gpa'); // Col 7
-            $table->longText('languageRestrictions'); // Col 9
-            $table->bigInteger('additionalFees'); // Col 10
-            $table->integer('places'); // Col 11
-            $table->integer('tekfeedId'); // Col 12
-            $table->timestamps();
-        });
+        if (!Capsule::schema()->hasTable('university')) {
+            Capsule::schema()->create('university', function ($table) {
+                $table->increments('id');
+                $table->longText('school'); // Col 3
+                $table->longText('country'); // Col 1
+                $table->longText('city'); // Col 2
+                $table->text('dates'); // Col 4
+                $table->text('language'); // Col 5
+                $table->longText('dualDegrees'); // Col 6
+                $table->text('gpa'); // Col 7
+                $table->longText('languageRestrictions'); // Col 9
+                $table->bigInteger('additionalFees'); // Col 10
+                $table->integer('places'); // Col 11
+                $table->integer('tekfeedId'); // Col 12
+                $table->timestamps();
+            });
+        } else {
+            University::truncate();
+        }
 
         $csv = Reader::createFromPath(realpath(__DIR__.'/../data/university.csv'), 'r');
 

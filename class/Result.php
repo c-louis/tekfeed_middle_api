@@ -13,12 +13,14 @@ class Result extends Model {
    ];
 
    static function seed() {
-        Capsule::schema()->create('result', function ($table) {
-            $table->increments('id');
-            $table->longText('query');
-            $table->longText('result');
-            $table->timestamps();
-        });
+        if (!Capsule::schema()->hasTable('result')) {
+            Capsule::schema()->create('result', function ($table) {
+                $table->increments('id');
+                $table->longText('query');
+                $table->longText('result');
+                $table->timestamps();
+            });
+        }
    }
 }
 
