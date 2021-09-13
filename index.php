@@ -22,14 +22,15 @@ $router->get('/', function() {
     return ['code' => '400', 'msg' => 'Route not served'];
 });
 
-// Basic for googleapis search cost
-$router->get('/seed', 'ApiController@seed');
-$router->get('/clear', 'ApiController@clear');
+// Setup endpoints
+$router->get('/seed',   'ApiController@seed');
+$router->get('/clear',  'ApiController@clear');
 $router->get('/search', 'ApiController@search');
 
-$router->get('/ranking', 'DataController@ranking');
-$router->get('/universities', 'DataController@universities');
-$router->get('/col', 'DataController@costOfLiving');
+// Data endpoints
+$router->get('/ranking',        'DataController@ranking');
+$router->get('/universities',   'DataController@universities');
+$router->get('/col',            'DataController@costOfLiving');
 
 $router->run();
 
