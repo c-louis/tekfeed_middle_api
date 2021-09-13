@@ -35,6 +35,7 @@ class ApiController extends Controller {
 			IcuRanking::seed();
 		} catch (Exception $e) {
 			$hasError = true;
+			echo 'FOUND ERROR IN ICU RANKING';
 			print_r($e);
 		}
 		try {

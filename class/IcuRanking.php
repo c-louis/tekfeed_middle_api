@@ -24,7 +24,7 @@ class IcuRanking extends Model {
 
     static function seed() {
         if (!Capsule::schema()->hasTable('icu_ranking')) {
-            Capsule::schema()->createIfNotExist('icu_ranking', function ($table) {
+            Capsule::schema()->create('icu_ranking', function ($table) {
                 $table->increments('id');
                 $table->foreignId('university_id')->unique();
                 $table->integer('national_rank');
@@ -39,31 +39,29 @@ class IcuRanking extends Model {
         foreach ($universities as $university) {
             if ($university->icuRanking != null)
                 continue;
+            $res = CustomSearchIcu::findOrSearch($university->school);
+            $json = json_decode($res->result);
+            if (!isset($json->items) || !isset($json->items[0]) || !isset($json->items[0]->link)) {
+                continue;
+            }
+            $icu_link = $json->items[0]->link;
+
+            $client = CrawlerClient::createChromeClient();
+            $crawler = $client->request('GET', $icu_link);
+
             try {
-                $res = CustomSearchIcu::findOrSearch($university->school);
-                $json = json_decode($res->result);
-                if (!isset($json->items) || !isset($json->items[0]) || !isset($json->items[0]->link)) {
+                if (!$crawler->filter('table.text-right > tbody > tr')->getElement(0)) {
                     continue;
                 }
-                $icu_link = $json->items[0]->link;
-
-                $client = CrawlerClient::createChromeClient();
-                $client->request('GET', $icu_link);
-
-                try {
-                    $crawler = $client->waitForVisibility('table.text-right > tbody > tr');
-                    $national_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(0)->text())[3];
-                    $world_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(1)->text())[3];
-                    IcuRanking::create([
-                        'university_id' => $university->id,
-                        'national_rank' => intval($national_rank),
-                        'world_rank' => intval($world_rank),
-                    ]);
-                } catch (Exception $e) {
-                    continue;
-                }
-            } catch (Exception $e) {
-                var_dump($e);
+                $national_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(0)->text())[3];
+                $world_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(1)->text())[3];
+                IcuRanking::create([
+                    'university_id' => $university->id,
+                    'national_rank' => intval($national_rank),
+                    'world_rank' => intval($world_rank),
+                ]);
+            } catch (mixed $e) {
+            
             }
         }
    }
