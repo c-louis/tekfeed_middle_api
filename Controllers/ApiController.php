@@ -57,6 +57,21 @@ class ApiController extends Controller {
 		}
 	}
 
+	public function clear(Request $request)
+	{
+		$params = $request->query->all();
+
+		if (!isset($params['key']) || $params['key'] != getenv('MIDDLE_API_KEY')) {
+			return ['code' => '404', 'msg' => 'Invalid request'];
+		} else {
+			Capsule::schema()->dropIfExists('result');
+			Capsule::schema()->dropIfExists('university');
+			Capsule::schema()->dropIfExists('icu_ranking');
+			Capsule::schema()->dropIfExists('shanghai_ranking');
+			Capsule::schema()->dropIfExists('cost_of_living');
+		}
+	}
+
 	public function search(Request $request) {
 
 		$params = $request->query->all();

@@ -24,6 +24,7 @@ $router->get('/', function() {
 
 // Basic for googleapis search cost
 $router->get('/seed', 'ApiController@seed');
+$router->get('/clear', 'ApiController@clear');
 $router->get('/search', 'ApiController@search');
 $router->get('/ranking', 'ApiController@ranking');
 
