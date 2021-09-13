@@ -39,7 +39,7 @@ class CustomSearchIcu {
 		$res = Result::where('query', $university)->first();
 		if ($res !== null) {
 			return $res;
-		} else {
+		} else if (getenv('LOCK') != 'TRUE') {
 			return CustomSearchIcu::search($university);
 		}
 	}

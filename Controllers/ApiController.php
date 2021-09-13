@@ -16,8 +16,12 @@ use GuzzleHttp\Client;
 
 class ApiController extends Controller {
 	
-	public function seed()
+	public function seed(Request $request)
 	{
+		$params = $request->query->all();
+		if (!isset($params['key']) || $params['key'] != getenv('MIDDLE_API_KEY') || getenv('LOCK') == 'TRUE') {
+			return ['code' => '404', 'msg' => 'Invalid request'];
+		}
 		$hasError = false;
 		try {
 			Result::seed();
