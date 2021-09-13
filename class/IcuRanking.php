@@ -32,7 +32,7 @@ class IcuRanking extends Model {
                 $table->timestamps();
             });
         } else {
-            IcuRanking::truncate();
+//            IcuRanking::truncate();
         }
 
         $universities = University::all();
@@ -50,14 +50,18 @@ class IcuRanking extends Model {
                 $client = CrawlerClient::createChromeClient();
                 $client->request('GET', $icu_link);
 
-                $crawler = $client->waitForVisibility('table.text-right > tbody > tr');
-                $national_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(0)->text())[3];
-                $world_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(1)->text())[3];
-                IcuRanking::create([
-                    'university_id' => $university->id,
-                    'national_rank' => intval($national_rank),
-                    'world_rank' => intval($world_rank),
-                ]);
+                try {
+                    $crawler = $client->waitForVisibility('table.text-right > tbody > tr');
+                    $national_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(0)->text())[3];
+                    $world_rank = explode(' ', $crawler->filter('table.text-right > tbody > tr')->eq(1)->text())[3];
+                    IcuRanking::create([
+                        'university_id' => $university->id,
+                        'national_rank' => intval($national_rank),
+                        'world_rank' => intval($world_rank),
+                    ]);
+                } catch (Exception $e) {
+                    continue;
+                }
             } catch (Exception $e) {
                 var_dump($e);
             }
