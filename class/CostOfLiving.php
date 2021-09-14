@@ -44,7 +44,7 @@ class CostOfLiving extends Model {
         // URL : https://www.numbeo.com/cost-of-living/rankings_by_country.jsp
 
         $client = CrawlerClient::createChromeClient();
-        $client->request('GET', 'https://www.numbeo.com/cost-of-living/rankings_by_country.jsp');
+        $client->request('GET', 'https://www.numbeo.com/cost-of-living/rankings_by_country.jsp?title=2020');
         $crawler = $client->waitForVisibility('table#t2 > tbody > tr');
         $records = $crawler->filter('table#t2 > tbody > tr')->each(function (Crawler $node, $i) {
             if (CostOfLiving::where('country', $node->children('td')->eq(1)->text())->first() == null) {
