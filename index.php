@@ -34,6 +34,9 @@ $router->get('/universities',   'DataController@universities');
 $router->get('/col',            'DataController@costOfLiving');
 $router->get('/themes',            'DataController@themes');
 
+// Epitech Intranet Requests
+$router->get('/epitech/login', 'EpitechController@login');
+
 $router->run();
 
 ?>
