@@ -32,6 +32,7 @@ $router->get('/search', 'ApiController@search');
 $router->get('/ranking',        'DataController@ranking');
 $router->get('/universities',   'DataController@universities');
 $router->get('/col',            'DataController@costOfLiving');
+$router->get('/themes',            'DataController@themes');
 
 $router->run();
 

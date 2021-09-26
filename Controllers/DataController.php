@@ -5,6 +5,8 @@ use Tekfeed\University;
 use Tekfeed\IcuRanking;
 use Tekfeed\ShanghaiRanking;
 use Tekfeed\CostOfLiving;
+use Tekfeed\UniversityTheme;
+
 use Tekfeed\Services\CustomSearchIcu;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -41,6 +43,10 @@ class DataController extends Controller {
 
 	public function costOfLiving(Request $request) {
 		return json_encode(CostOfLiving::all());
+	}
+
+	public function themes(Request $request) {
+		return json_encode(UniversityTheme::all());
 	}
 }
 
