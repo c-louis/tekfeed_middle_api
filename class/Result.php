@@ -12,7 +12,7 @@ class Result extends Model {
        'query', 'result'
    ];
 
-   static function seed() {
+   static function createTable($force = false) {
         if (!Capsule::schema()->hasTable('result')) {
             Capsule::schema()->create('result', function ($table) {
                 $table->increments('id');

@@ -22,7 +22,10 @@ class IcuRanking extends Model {
         return $this->hasOne(University::class);
     }    
 
-    static function seed() {
+    static function createTable(bool $force = false) {
+        if (Capsule::schema()->hasTable('icu_ranking') && $force) {
+            Capsule::schema()->drop('icu_ranking');
+        }
         if (!Capsule::schema()->hasTable('icu_ranking')) {
             Capsule::schema()->create('icu_ranking', function ($table) {
                 $table->increments('id');
@@ -31,10 +34,13 @@ class IcuRanking extends Model {
                 $table->integer('world_rank');
                 $table->timestamps();
             });
-        } else {
-//            IcuRanking::truncate();
         }
+    }
 
+    static function seed(bool $force = false) {
+        if ($force) {
+            IcuRanking::truncate();
+        }
         $universities = University::all();
         foreach ($universities as $university) {
             if ($university->icuRanking != null)

@@ -21,7 +21,10 @@ class ShanghaiRanking extends Model {
         return $this->hasOne(University::class);
     }    
 
-    static function seed() {
+    static function createTable(bool $force = false) {
+        if (Capsule::schema()->hasTable('shanghai_ranking') && $force) {
+            Capsule::schema()->drop('shanghai_ranking');
+        }
         if (!Capsule::schema()->hasTable('shanghai_ranking')) {
             Capsule::schema()->create('shanghai_ranking', function ($table) {
                 $table->increments('id');
@@ -29,10 +32,13 @@ class ShanghaiRanking extends Model {
                 $table->integer('world_rank');
                 $table->timestamps();
             });
-        } else {
+        }
+    }
+
+    static function seed(bool $force = false) {
+        if ($force) {
             ShanghaiRanking::truncate();
         }
-
         $shanghaiRank = [];
         $csv = Reader::createFromPath(realpath(__DIR__.'/../data/shanghai.csv'), 'r');
         $records = $csv->getRecords();

@@ -24,7 +24,10 @@ class CostOfLiving extends Model {
         'localPurchasingPowerIndex'
    ];
 
-    static function seed() {
+    static function createTable(bool $force = false) {
+        if (Capsule::schema()->hasTable('cost_of_living') && $force) {
+            Capsule::schema()->drop('cost_of_living');
+        }
         if (!Capsule::schema()->hasTable('cost_of_living')) {
             Capsule::schema()->create('cost_of_living', function ($table) {
                 $table->increments('id');
@@ -37,12 +40,13 @@ class CostOfLiving extends Model {
                 $table->decimal('localPurchasingPowerIndex');
                 $table->timestamps();
             });
-        } else {
+        }
+    }
+
+    static function seed(bool $force = false) {
+        if ($force) {
             CostOfLiving::truncate();
         }
-
-        // URL : https://www.numbeo.com/cost-of-living/rankings_by_country.jsp
-
         $client = CrawlerClient::createChromeClient();
         $client->request('GET', 'https://www.numbeo.com/cost-of-living/rankings_by_country.jsp?title=2020');
         $crawler = $client->waitForVisibility('table#t2 > tbody > tr');

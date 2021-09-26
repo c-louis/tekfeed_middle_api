@@ -23,6 +23,7 @@ $router->get('/', function() {
 });
 
 // Setup endpoints
+$router->get('/create', 'ApiController@create');
 $router->get('/seed',   'ApiController@seed');
 $router->get('/clear',  'ApiController@clear');
 $router->get('/search', 'ApiController@search');

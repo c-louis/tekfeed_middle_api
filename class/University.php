@@ -23,7 +23,12 @@ class University extends Model {
         'gpa',
         'languageRestrictions',
         'additionalFees',
-        'places'
+        'places',
+        'tepitech',
+        'TOEFL',
+        'IELTS',
+        'TOEIC',
+        'duolingo'
     ];
 
     public function icuRanking() {
@@ -34,7 +39,10 @@ class University extends Model {
         return $this->hasOne(ShanghaiRanking::class);
     }
 
-   static function seed() {
+    static function createTable(bool $force = false) {
+        if (Capsule::schema()->hasTable('university') && $force) {
+            Capsule::schema()->drop('university');
+        }
         if (!Capsule::schema()->hasTable('university')) {
             Capsule::schema()->create('university', function ($table) {
                 $table->increments('id');
@@ -49,12 +57,20 @@ class University extends Model {
                 $table->bigInteger('additionalFees'); // Col 10
                 $table->integer('places'); // Col 11
                 $table->integer('tekfeedId'); // Col 12
+                $table->text('tepitech')->nullable(); // Col 13
+                $table->text('TOEFL')->nullable(); // Col 14
+                $table->text('IELTS')->nullable(); // Col 15
+                $table->text('TOEIC')->nullable(); // Col 16
+                $table->text('duolingo')->nullable(); // Col 17
                 $table->timestamps();
             });
-        } else {
+        }
+    }
+
+    static function seed(bool $force = false) {
+        if ($force) {
             University::truncate();
         }
-
         $csv = Reader::createFromPath(realpath(__DIR__.'/../data/university.csv'), 'r');
 
         $universities = $csv->getRecords();
@@ -65,12 +81,17 @@ class University extends Model {
                 'school'        => $university[2],
                 'dates'         => $university[3],
                 'language'      => $university[4],
-                'dualDegrees'   => $university[5],
+                'dualDegrees'   => $university[11],
                 'gpa'           => $university[6],
                 'languageRestrictions'  => $university[7],
                 'additionalFees'        => $university[8],
                 'places'        => $university[9],
                 'tekfeedId'     => $university[10],
+                'tepitech'      => $university[12],
+                'TOEFL'         => $university[13],
+                'IELTS'         => $university[14],
+                'TOEIC'         => $university[15],
+                'duolingo'      => $university[16],
             ]);
         }
    }
