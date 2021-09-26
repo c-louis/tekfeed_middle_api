@@ -33,7 +33,7 @@ class DataController extends Controller {
 	public function universities(Request $request) {
 		$params = $request->query->all();
 		if (isset($params['all']) && $params['all'] == '1') {
-			$universities = University::with(['icuRanking', 'shanghaiRanking'])->get();
+			$universities = University::with(['icuRanking', 'shanghaiRanking', 'themes'])->get();
 			return json_encode($universities);
 		}
 		return json_encode(University::all());

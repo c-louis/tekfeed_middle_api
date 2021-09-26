@@ -51,6 +51,7 @@ class ApiController extends Controller {
 		$hasError = $hasError || !$this->trySeed('Tekfeed\IcuRanking', $force);
 		$hasError = $hasError || !$this->trySeed('Tekfeed\ShanghaiRanking', $force);
 		$hasError = $hasError || !$this->trySeed('Tekfeed\CostOfLiving', $force);
+		$hasError = $hasError || !$this->trySeed('Tekfeed\UniversityTheme', $force);
 
 		if ($hasError) {
 	    	return ['code' => '500', 'msg' => 'Something must have failed'];
@@ -73,6 +74,7 @@ class ApiController extends Controller {
 		$hasError = $hasError || !$this->tryCreate('Tekfeed\IcuRanking', $force);
 		$hasError = $hasError || !$this->tryCreate('Tekfeed\ShanghaiRanking', $force);
 		$hasError = $hasError || !$this->tryCreate('Tekfeed\CostOfLiving', $force);
+		$hasError = $hasError || !$this->tryCreate('Tekfeed\UniversityTheme', $force);
 
 		if ($hasError) {
 	    	return ['code' => '500', 'msg' => 'Something must have failed'];

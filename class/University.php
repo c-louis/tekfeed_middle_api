@@ -39,6 +39,10 @@ class University extends Model {
         return $this->hasOne(ShanghaiRanking::class);
     }
 
+    public function themes() {
+        return $this->belongsToMany(UniversityTheme::class, 'theme_university');
+    }
+
     static function createTable(bool $force = false) {
         if (Capsule::schema()->hasTable('university') && $force) {
             Capsule::schema()->drop('university');
