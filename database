@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS result (
-	query longText,
-	result longText,
-	created_at datetime
-);

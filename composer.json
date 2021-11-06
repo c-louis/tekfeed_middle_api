@@ -6,7 +6,8 @@
         "vlucas/phpdotenv": "^5.3",
         "guzzlehttp/guzzle": "^7.3",
         "symfony/panther": "^1.1",
-        "league/csv": "^9.7"
+        "league/csv": "^9.7",
+        "eftec/bladeone": "^4.1"
     },
     "autoload": {
         "psr-4": {

@@ -4,39 +4,12 @@ header('Access-Control-Allow-Origin: *');
 
 require "bootstrap.php";
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Buki\Router\Router;
-use Symfony\Component\Panther\Client;
+Use eftec\bladeone\BladeOne;
 
-$router = new Router([
-    'paths' => [
-        'controllers' => 'Controllers',
-    ],
-    'namespace' => [
-        'controllers' => 'Controllers',
-    ]
-]);
+$views = __DIR__ . '/views';
+$cache = __DIR__ . '/cache';
+$blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 
-
-$router->get('/', function() {
-    return ['code' => '400', 'msg' => 'Route not served'];
-});
-
-// Setup endpoints
-$router->get('/create', 'ApiController@create');
-$router->get('/seed',   'ApiController@seed');
-$router->get('/clear',  'ApiController@clear');
-$router->get('/search', 'ApiController@search');
-
-// Data endpoints
-$router->get('/ranking',        'DataController@ranking');
-$router->get('/universities',   'DataController@universities');
-$router->get('/col',            'DataController@costOfLiving');
-$router->get('/themes',            'DataController@themes');
-
-// Epitech Intranet Requests
-$router->get('/epitech/login', 'EpitechController@login');
-
-$router->run();
+@require "routes.php"
 
 ?>
